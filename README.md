@@ -1,19 +1,20 @@
-# reentry-minimalism
+# stock-minimalism
 
 NYU Game Design, Week 1 "Minimalism" assignment (group 7 — Lucy Zheng & Steven Li).
 
-## concept
+## Concept
 
-A one-button spacecraft re-entry sim: press-and-release timing on a single
-button adjusts angle of attack. Fly too steep and you burn up; too shallow
-and you lose energy/range control and overshoot or undershoot the landing
-target. Win by arriving at the target with the right remaining energy.
+short press for purchase, long hold for sold, and the layout could be drawed boxed representing the stack going up & down
+Colored with red & green
 
-## constrains
+![Concept art](assets/mockup.png)
 
-- one-button input only, simple geometric shapes only (circles/squares/triangles)
+## Constrains
+
+- one-button input only
+- simple geometric shapes only (circles/squares/triangles)
 - must run in a browser
-- Zero AI dependency.
+- Zero AI
 
 ## Tech stack
 
@@ -36,8 +37,8 @@ scripts/
 ## Setup
 
 ```bash
-git clone --recurse-submodules https://github.com/StevenLi-phoenix/reentry-minimalism
-cd reentry-minimalism
+git clone --recurse-submodules https://github.com/StevenLi-phoenix/stock-minimalism
+cd stock-minimalism
 scripts/setup_emsdk.sh   # downloads and activates the emscripten toolchain
 ```
 
@@ -56,7 +57,7 @@ raylib web library (only needed after changing raylib source/version).
 ## CI: auto-release to itch.io
 
 `.github/workflows/itch-release.yml` builds the web target and pushes it to
-[stevenli-phoenix-work.itch.io/reentry-minimalism](https://stevenli-phoenix-work.itch.io/reentry-minimalism)
+[stevenli-phoenix-work.itch.io/stock-minimalism](https://stevenli-phoenix-work.itch.io/stock-minimalism)
 via [butler](https://itch.io/docs/butler/) on every push to `main`.
 
 ## Notes

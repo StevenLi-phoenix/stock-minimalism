@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- Renamed project from `reentry-minimalism` to `stock-minimalism` (idea pivoted from
+  a spacecraft re-entry sim to a one-button stock/order-flow minimalism concept).
+  GitHub repo and itch.io page moved to their new `stock-minimalism` URLs.
+  Files: README.md, src/main.c
+
 ## [0.0.1] - 2026-09-12 — Initial Prototype
 
 ### Added

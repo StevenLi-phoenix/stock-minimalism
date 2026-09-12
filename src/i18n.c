@@ -10,18 +10,18 @@
 // Table is [language][key]. Keep the row order in sync with StringKey,
 static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
     [LANG_EN] = {
-        [STR_GAME_TITLE] = "Reentry Minimalism",
+        [STR_GAME_TITLE] = "Stockmarket",
         [STR_PRESS_SPACE_TO_START] = "Press SPACE to start",
         [STR_PAUSED] = "Paused",
         [STR_GAME_OVER] = "Game Over",
-        [STR_PIPELINE_OK] = "reentry-minimalism: raylib + WebAssembly pipeline OK",
+        [STR_PIPELINE_OK] = "stock-minimalism: This is the banner of testing if release process working fine.",
     },
     [LANG_ZH] = {
-        [STR_GAME_TITLE] = "再入极简",
+        [STR_GAME_TITLE] = "股市极简",
         [STR_PRESS_SPACE_TO_START] = "按空格键开始",
         [STR_PAUSED] = "已暂停",
         [STR_GAME_OVER] = "游戏结束",
-        [STR_PIPELINE_OK] = "再入极简：raylib + WebAssembly 构建流程正常",
+        [STR_PIPELINE_OK] = "股市极简：这是用于测试发布流程是否正常运行的横幅。",
     },
 };
 
