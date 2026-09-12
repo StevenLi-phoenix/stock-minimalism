@@ -1,0 +1,55 @@
+name: itch.io release
+
+# Every push to main builds the WASM game and pushes it to itch.io via butler.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+
+# Cancel a superseded run if main gets pushed again before this one finishes.
+concurrency:
+  group: itch-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (with raylib submodule)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 6.0.9
+          actions-cache-folder: emsdk-cache
+
+      - name: Build raylib (PLATFORM_WEB) + game
+        run: scripts/build_web.sh
+
+      - name: Install butler
+        run: |
+          curl -sSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -o butler.zip -d "${HOME}/butler"
+          chmod +x "${HOME}/butler/butler"
+          echo "${HOME}/butler" >> "${GITHUB_PATH}"
+
+      - name: Push build to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${{ vars.ITCH_TARGET }}" ]; then
+            echo "::error::Repository variable ITCH_TARGET is not set. Set it to '<itch-username>/<game-slug>' under Settings > Secrets and variables > Actions > Variables, then re-run this workflow." >&2
+            exit 1
+          fi
+          channel="${{ vars.ITCH_CHANNEL }}"
+          channel="${channel:-web}"
+          butler push build/web "${{ vars.ITCH_TARGET }}:${channel}" --userversion "$(git rev-parse --short HEAD)"

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <title>reentry-minimalism</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #f5f5f5; }
+      body { display: flex; align-items: center; justify-content: center; }
+      canvas#canvas { border: 0 none; outline: none; }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    <script type="text/javascript">
+      var canvasElement = document.getElementById('canvas');
+      canvasElement.addEventListener("webglcontextlost", (e) => {
+        alert('WebGL context lost. You will need to reload the page.');
+        e.preventDefault();
+      }, false);
+
+      var Module = {
+        canvas: canvasElement,
+      };
+    </script>
+    {{{ SCRIPT }}}
+  </body>
+</html>

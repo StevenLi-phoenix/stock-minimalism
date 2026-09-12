@@ -1,0 +1,19 @@
+# emscripten SDK - installed locally via scripts/setup_emsdk.sh, not committed (large binary toolchain)
+/emsdk/
+
+# build artifacts
+/build/
+*.o
+*.a
+
+# raylib web build artifacts inside submodule
+raylib/src/*.o
+raylib/src/libraylib.a
+raylib/src/libraylib.web.a
+
+# secrets - never commit (itch.io butler API key, etc.)
+.env
+.env.*
+
+macOS
+.DS_Store
