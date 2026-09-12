@@ -59,24 +59,6 @@ raylib web library (only needed after changing raylib source/version).
 [stevenli-phoenix-work.itch.io/reentry-minimalism](https://stevenli-phoenix-work.itch.io/reentry-minimalism)
 via [butler](https://itch.io/docs/butler/) on every push to `main`.
 
-Already configured on this repo (`BUTLER_API_KEY` secret, `ITCH_TARGET`
-repo variable = `stevenli-phoenix-work/reentry-minimalism`). To point this
-at a different itch.io project or key:
-
-1. Get an API key from https://itch.io/user/settings/api-keys.
-2. `gh secret set BUTLER_API_KEY --repo <owner>/<repo>` (paste the key, or
-   pipe it in — never put it in a tracked file; `.env` is gitignored for
-   local use only).
-3. `gh variable set ITCH_TARGET --repo <owner>/<repo> --body "<itch-username>/<game-slug>"`
-4. Optional: `gh variable set ITCH_CHANNEL --repo <owner>/<repo> --body "<channel>"`
-   (defaults to `web` if unset).
-
-One remaining manual step: on itch.io, open the project's Edit page once
-the first build has been pushed and check "This file will be played in
-the browser" on the uploaded file — butler doesn't set that flag for you.
-
-The workflow fails fast with a clear error if `ITCH_TARGET` isn't set.
-
 ## Notes
 
 - Textures/images go in `assets/` (see `assets/README.md`) — `build_web.sh`
