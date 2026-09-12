@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-09-12
+
+### Known Issues
+- i18n: LANG_ZH not working due to default font not supporting Chinese characters.
+
+### Added
+- Core trading Game logic, expose via GameViewDTO struct and UpdateGameState() function.
+- `scripts/build_native.sh` / `run_local.sh`: native desktop build script.
+- Debug HUD in `main.c` 
+
 ### Changed
-- Renamed project from `reentry-minimalism` to `stock-minimalism` (idea pivoted from
-  a spacecraft re-entry sim to a one-button stock/order-flow minimalism concept).
-  GitHub repo and itch.io page moved to their new `stock-minimalism` URLs.
-  Files: README.md, src/main.c
+- Renamed project from `reentry-minimalism` to `stock-minimalism` 
+- Game concept changed from "space shuttle reentry" to "stock trading simulator" 
 
 ## [0.0.1] - 2026-09-12 — Initial Prototype
 
