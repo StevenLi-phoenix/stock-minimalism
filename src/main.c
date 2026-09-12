@@ -18,18 +18,29 @@ static float shuttleRotation = 0.0f;
 
 static void HandleInput(void)
 {
-    if (IsKeyPressed(KEY_SPACE))
+    if (IsKeyDown(KEY_SPACE))
     {
-        shuttleRotating = !shuttleRotating;
-        TraceLog(LOG_INFO, "Shuttle rotation %s", shuttleRotating ? "started" : "stopped");
+        shuttleRotating = true;
+    } else {
+        shuttleRotating = false;
     }
 }
 
 static void UpdateGameState(void)
 {
+    
+    if (shuttleRotation >= 0.0f)
+    {
+        // reset to nutral position
+        shuttleRotation = 0.0f;
+    }
     if (shuttleRotating)
     {
-        shuttleRotation += 180.0f * GetFrameTime();
+        // commanded pitch up
+        shuttleRotation -= 180.0f * GetFrameTime();
+    } else {
+        // pitch down, at lower speed than commanded pitch up
+        shuttleRotation += 10.0f * GetFrameTime();
     }
 }
 
@@ -37,12 +48,10 @@ static void DrawFrame(void)
 {
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawRectangle(0, 0, screenWidth, screenHeight, LIGHTGRAY);
-    DrawRectangle(2, 2, screenWidth-4, screenHeight-4, RAYWHITE);
-    DrawText(i18n_T(STR_PIPELINE_OK), 24, 24, 20, DARKGRAY);
-    DrawCircle(150, 240, 50, MAROON);
-    DrawRectangle(320, 190, 100, 100, DARKBLUE);
-    DrawTriangle((Vector2){ 560, 190 }, (Vector2){ 510, 290 }, (Vector2){ 610, 290 }, DARKGREEN);
+    DrawRectangleLinesEx((Rectangle){ 0, 0, (float)screenWidth, (float)screenHeight }, 2, BLACK);
+    
+    // how to use i18n_T() to draw text?
+    // DrawText(i18n_T(STR_PIPELINE_OK), 24, 24, 20, DARKGRAY);
 
     if (shuttleTexture.id != 0)
     {
