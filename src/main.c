@@ -4,6 +4,7 @@
 #include <emscripten/emscripten.h>
 #endif
 
+// ALSO remember to update itch io display viewpoint
 static const int screenWidth = 800;
 static const int screenHeight = 450;
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Clones and activates the Emscripten SDK into ./emsdk (gitignored — not committed).
-# Idempotent: safe to re-run.
+# Clones and activates the Emscripten SDK into ./emsdk 
+# Usage: scripts/setup_emsdk.sh
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

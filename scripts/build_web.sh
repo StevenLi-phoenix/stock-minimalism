@@ -9,10 +9,9 @@ RAYLIB_SRC="${ROOT_DIR}/raylib/src"
 BUILD_DIR="${ROOT_DIR}/build/web"
 
 if command -v emcc >/dev/null 2>&1; then
-  # emcc already on PATH (e.g. CI, via mymindstorm/setup-emsdk) - nothing to source.
+
   echo "Using emcc already on PATH: $(command -v emcc)"
 elif [ -f "${EMSDK_DIR}/emsdk_env.sh" ]; then
-  # shellcheck disable=SC1091
   source "${EMSDK_DIR}/emsdk_env.sh"
 else
   echo "emcc not found and no local emsdk at ${EMSDK_DIR}. Run scripts/setup_emsdk.sh first." >&2

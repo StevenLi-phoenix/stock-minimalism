@@ -2,19 +2,22 @@
 
 NYU Game Design, Week 1 "Minimalism" assignment (group 7 — Lucy Zheng & Steven Li).
 
+## concept
+
 A one-button spacecraft re-entry sim: press-and-release timing on a single
 button adjusts angle of attack. Fly too steep and you burn up; too shallow
 and you lose energy/range control and overshoot or undershoot the landing
 target. Win by arriving at the target with the right remaining energy.
 
-Constraints from the assignment: one-button input only, simple geometric
-shapes only (circles/squares/triangles), must run in a browser.
+## constrains
+
+- one-button input only, simple geometric shapes only (circles/squares/triangles)
+- must run in a browser
+- Zero AI dependency.
 
 ## Tech stack
 
-C + [raylib](https://www.raylib.com/) compiled to WebAssembly via
-[emscripten](https://emscripten.org/), so it runs directly in the browser
-with no plugin.
+C + [raylib](https://www.raylib.com/) compiled to WebAssembly via [emscripten](https://emscripten.org/)
 
 ## Project layout
 
@@ -22,7 +25,7 @@ with no plugin.
 src/main.c          game source
 assets/             textures/images bundled into the build (see assets/README.md)
 raylib/             raylib source, git submodule pinned to release 6.0
-emsdk/               emscripten SDK (gitignored, installed locally — see below)
+emsdk/              emscripten SDK (gitignored, installed locally — see below)
 build/web/          build output: index.html + .js + .wasm (gitignored)
 scripts/
   setup_emsdk.sh    clone + install + activate emsdk (run once)
@@ -30,18 +33,12 @@ scripts/
   serve.sh          serve build/web/ over HTTP for local testing
 ```
 
-## Setup (once per machine)
+## Setup
 
 ```bash
-git clone --recurse-submodules <this repo>
+git clone --recurse-submodules https://github.com/StevenLi-phoenix/reentry-minimalism
 cd reentry-minimalism
 scripts/setup_emsdk.sh   # downloads and activates the emscripten toolchain
-```
-
-If you already cloned without `--recurse-submodules`:
-
-```bash
-git submodule update --init --recursive
 ```
 
 ## Build & run
