@@ -15,6 +15,13 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_PAUSED] = "Paused",
         [STR_GAME_OVER] = "Game Over",
         [STR_PIPELINE_OK] = "stock-minimalism: This is the banner of testing if release process working fine.",
+        [STR_CURRENT_PRICE] = "Price: ",
+        [STR_CURRENT_STEP] = "Step: ",
+        [STR_CASH] = "Cash: ",
+        [STR_SHARES] = "Shares: ",
+        [STR_PORTFOLIO_VALUE] = "Portfolio: ",
+        [STR_IS_HOLDING_DOWN] = "Holding: ",
+        [STR_PLAYER_HOLD_DURATION] = "  Hold time: ",
     },
     [LANG_ZH] = {
         [STR_GAME_TITLE] = "股市极简",
@@ -22,6 +29,13 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_PAUSED] = "已暂停",
         [STR_GAME_OVER] = "游戏结束",
         [STR_PIPELINE_OK] = "股市极简：这是用于测试发布流程是否正常运行的横幅。",
+        [STR_CURRENT_PRICE] = "价格：",
+        [STR_CURRENT_STEP] = "步骤：",
+        [STR_CASH] = "现金：",
+        [STR_SHARES] = "持仓：",
+        [STR_PORTFOLIO_VALUE] = "总资产：",
+        [STR_IS_HOLDING_DOWN] = "按住中：",
+        [STR_PLAYER_HOLD_DURATION] = "  按住时长：",
     },
 };
 

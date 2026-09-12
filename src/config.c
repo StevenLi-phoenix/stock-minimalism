@@ -1,17 +1,8 @@
-// included balance_config
-// initial deorbit speed: 8000 m/s
-// initial altitude: 120000 m
-// initial angle: 90 degrees
-// target landing speed: ?
-// target landing altitude: 0 m
-// stall speed
-// pitch
-// trim mappings
-
 #include "config.h"
 
-// control key bindings: CONFIG_KEY_PITCH_UP || CONFIG_MOUSE_BUTTON_PITCH_UP
-bool Config_IsPitchUpCommanded(void)
+// control key bindings: CONFIG_PRIMARY_KEY_CONTROL || CONFIG_ALT_KEY_CONTROL
+bool IsControlKeyPressed(void)
 {
-    return IsKeyDown(CONFIG_KEY_PITCH_UP) || IsMouseButtonDown(CONFIG_MOUSE_BUTTON_PITCH_UP);
+    return IsKeyDown(CONFIG_PRIMARY_KEY_CONTROL) || IsMouseButtonDown(CONFIG_ALT_KEY_CONTROL);
 }
+

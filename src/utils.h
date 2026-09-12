@@ -4,5 +4,7 @@
 #define UTILS_H
 
 float WrapAngleDelta(float delta);
+float gameSeedGenerator(int randomSeed);
+float RatioClamped(float value, float max_value);
 
 #endif // UTILS_H
