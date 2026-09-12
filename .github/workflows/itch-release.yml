@@ -31,6 +31,16 @@ jobs:
           version: 6.0.9
           actions-cache-folder: emsdk-cache
 
+      - name: Resolve raylib submodule commit
+        id: raylib_commit
+        run: echo "sha=$(git -C raylib rev-parse HEAD)" >> "${GITHUB_OUTPUT}"
+
+      - name: Cache raylib PLATFORM_WEB build
+        uses: actions/cache@v4
+        with:
+          path: raylib/src/libraylib.web.a
+          key: raylib-web-${{ runner.os }}-emsdk6.0.9-${{ steps.raylib_commit.outputs.sha }}
+
       - name: Build raylib (PLATFORM_WEB) + game
         run: scripts/build_web.sh
 

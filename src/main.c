@@ -1,12 +1,14 @@
 #include "raylib.h"
 
+#include "i18n.h"
+
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
 
 // ALSO remember to update itch io display viewpoint
-static const int screenWidth = 800;
-static const int screenHeight = 450;
+static const int screenWidth = 1280;
+static const int screenHeight = 720;
 
 static Texture2D shuttleTexture; // SpaceShuttle.png is 968x341 
 static const Rectangle shuttleBounds = { 0, 0, 968, 341 };
@@ -35,7 +37,9 @@ static void DrawFrame(void)
 {
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawText("reentry-minimalism: raylib + WebAssembly pipeline OK", 24, 24, 20, DARKGRAY);
+    DrawRectangle(0, 0, screenWidth, screenHeight, LIGHTGRAY);
+    DrawRectangle(2, 2, screenWidth-4, screenHeight-4, RAYWHITE);
+    DrawText(i18n_T(STR_PIPELINE_OK), 24, 24, 20, DARKGRAY);
     DrawCircle(150, 240, 50, MAROON);
     DrawRectangle(320, 190, 100, 100, DARKBLUE);
     DrawTriangle((Vector2){ 560, 190 }, (Vector2){ 510, 290 }, (Vector2){ 610, 290 }, DARKGREEN);

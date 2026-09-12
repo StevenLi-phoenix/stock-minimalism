@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the game for the browser: raylib (web target) + src/main.c -> build/web/index.html
+# Builds the game for the browser: raylib (web target) + src/*.c -> build/web/index.html
 # Usage: scripts/build_web.sh [--rebuild-raylib]
 set -euo pipefail
 
@@ -37,8 +37,9 @@ if [ -d "${ASSETS_DIR}" ] && [ -n "$(find "${ASSETS_DIR}" -type f ! -name 'READM
   ASSET_ARGS=(--preload-file "${ASSETS_DIR}@assets")
 fi
 
-echo "Compiling src/main.c -> ${BUILD_DIR}/index.html ..."
-emcc "${ROOT_DIR}/src/main.c" \
+echo "Compiling src/*.c -> ${BUILD_DIR}/index.html ..."
+SRC_FILES=("${ROOT_DIR}"/src/*.c)
+emcc "${SRC_FILES[@]}" \
   -o "${BUILD_DIR}/index.html" \
   -Os -Wall \
   -I"${RAYLIB_SRC}" \
