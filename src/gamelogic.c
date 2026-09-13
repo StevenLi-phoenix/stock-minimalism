@@ -20,7 +20,7 @@ static float RandomGaussian(void)
 }
 
 // GBM + mean reversion + bull/bear drift, all seed-driven
-void generate_prices(float *prices, int count)
+void generate_prices(float *prices, int count, MarketRegime *regime)
 {
     if (count <= 0) return;
 
@@ -31,14 +31,17 @@ void generate_prices(float *prices, int count)
 
     int regime_ticks_left = 0;
     float regime_drift = 0.0f;
+    MarketRegime current_regime = MARKET_BULLISH;
 
     for (int i = 1; i < count; i++) {
         if (regime_ticks_left <= 0) {
             regime_ticks_left = GetRandomValue(CONFIG_REGIME_MIN_TICKS, CONFIG_REGIME_MAX_TICKS);
             bool bull = GetRandomValue(0, 1) == 1;
             regime_drift = bull ? CONFIG_BULL_DRIFT : CONFIG_BEAR_DRIFT;
+            current_regime = bull ? MARKET_BULLISH : MARKET_BEARISH;
         }
         regime_ticks_left--;
+        regime[i] = current_regime;
 
         log_anchor += regime_drift;
         float reversion = CONFIG_MEAN_REVERSION_STRENGTH * (log_anchor - log_price);
@@ -49,6 +52,7 @@ void generate_prices(float *prices, int count)
         if (price < CONFIG_PRICE_FLOOR) price = CONFIG_PRICE_FLOOR; // safety net
         prices[i] = price;
     }
+    if (count > 1) regime[0] = regime[1];
 }
 
 void InitGameState(GameViewDTO *state, unsigned int seed, float starting_cash, float round_seconds)
@@ -58,14 +62,16 @@ void InitGameState(GameViewDTO *state, unsigned int seed, float starting_cash, f
     state->seed = (seed != 0) ? seed : (unsigned int)gameSeedGenerator(0);
     SetRandomSeed(state->seed);
 
-    generate_prices(state->price_history, STOCK_SEQUENCE_LENGTH);
+    generate_prices(state->price_history, STOCK_SEQUENCE_LENGTH, state->regime_history);
     state->price_history_count = STOCK_SEQUENCE_LENGTH;
     state->price_index = 0;
     state->current_price = state->price_history[0];
+    state->market_regime = state->regime_history[0];
 
     state->starting_cash = starting_cash;
     state->cash = starting_cash;
     state->shares = 0;
+    state->position_anchor_cash = starting_cash;
     state->portfolio_value = starting_cash;
     state->profit_loss = 0.0f;
     state->highest_ever_price = state->current_price;
@@ -136,6 +142,8 @@ void ApplyPlayerAction(GameViewDTO *state, PlayerActionDTO action)
         case PLAYER_ACTION_BUY: {
             if (state->current_price <= 0.0f || state->cash < state->current_price) break;
 
+            if (state->shares == 0) state->position_anchor_cash = state->cash;
+
             int shares_bought = CONFIG_SHARES_PER_TRADE;
             state->shares += shares_bought;
             state->cash -= shares_bought * state->current_price;
@@ -183,6 +191,7 @@ void UpdateGameState(GameViewDTO *state, float delta_time)
 
         state->price_index = index;
         state->current_price = state->price_history[index];
+        state->market_regime = state->regime_history[index];
     }
 
     if (state->current_price > state->highest_ever_price) state->highest_ever_price = state->current_price;

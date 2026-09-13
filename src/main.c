@@ -50,6 +50,12 @@ static float PriceToY(float price, Rectangle area, float low, float span)
     return area.y + (1.0f - (price - low) / span) * area.height;
 }
 
+static bool GetBreakEvenPrice(float *out) {
+    if (gameView.shares <= 0) return false;
+    *out = (gameView.position_anchor_cash - gameView.cash) / (float)gameView.shares;
+    return true;
+}
+
 static void DrawChartBars(Rectangle area)
 {
     if (gameView.price_index < 1) return;
@@ -130,6 +136,26 @@ static void DrawChartBars(Rectangle area)
     float tagX = area.x + area.width + 8.0f;
     float tagY = currentY - tagHeight * 0.5f;
 
+    // Display break even price
+    float breakEven;
+    if (GetBreakEvenPrice(&breakEven) && breakEven >= low && breakEven <= high) 
+    {
+        float y = PriceToY(breakEven, area, low, span);
+        const float dash = 10.0f;
+        for (float dx = 0.0f; dx < area.width; dx += dash * 2.0f) {
+            float segment = (dx + dash > area.width) ? (area.width - dx) : dash;
+            DrawLineEx((Vector2){ area.x + dx, y }, (Vector2){ area.x + dx + segment, y }, 2.0f, ORANGE);
+        }
+
+        const char *beText = TextFormat("%.0f", breakEven);
+        float beTagWidth = (float)MeasureText(beText, chartAxisFontSize) + 12.0f;
+        float beTagX = area.x - 4.0f - beTagWidth;
+        float beTagY = y - tagHeight * 0.5f;
+
+        DrawRectangleRec((Rectangle){ beTagX, beTagY, beTagWidth, tagHeight }, ORANGE);
+        DrawText(beText, (int)beTagX + 6, (int)beTagY + 4, chartAxisFontSize, WHITE);
+    }
+
     DrawRectangleRec((Rectangle){ tagX, tagY, tagWidth, tagHeight }, BLUE);
     DrawText(priceText, (int)tagX + 6, (int)tagY + 4, chartAxisFontSize, WHITE);
 }
@@ -139,18 +165,34 @@ static void DrawStatCentered(float x, float width, float y, const char *text, Co
     DrawText(text, (int)(x + (width - MeasureText(text, fontSize_M)) * 0.5f), (int)y, fontSize_M, color);
 }
 
-// Display important stats
 static void DrawSidePanel(Rectangle chart)
 {
     float top = chart.y + 136.0f;
     float x = chart.x + chart.width + 80.0f;
     float rowHeight = 56.0f;
 
-    float breakEven = (gameView.shares > 0) ? (gameView.starting_cash - gameView.cash) / (float)gameView.shares : 0.0f;
+    float breakEven;
+    bool hasPosition = GetBreakEvenPrice(&breakEven);
 
+    // Display Stats
+    DrawText(hasPosition ? TextFormat("%s%.2f", i18n_T(STR_BREAK_EVEN), breakEven)
+                         : TextFormat("%s-", i18n_T(STR_BREAK_EVEN)), (int)x, (int)(top + rowHeight), fontSize_L, DARKGRAY);
     DrawText(TextFormat("%s%.2f", i18n_T(STR_CURRENT_PRICE), gameView.current_price), (int)x, (int)top, fontSize_L, BLUE);
-    DrawText(TextFormat("%s%.2f", i18n_T(STR_BREAK_EVEN), breakEven), (int)x, (int)(top + rowHeight), fontSize_L, DARKGRAY);
     DrawText(TextFormat("%s%d", i18n_T(STR_SHARES), gameView.shares), (int)x, (int)(top + rowHeight * 2.0f), fontSize_L, GRAY);
+
+    // Display market regime
+    bool bullish = (gameView.market_regime == MARKET_BULLISH);
+    float moodY = top + rowHeight * 3.0f;
+    DrawText(i18n_T(bullish ? STR_MARKET_BULLISH : STR_MARKET_BEARISH),
+             (int)x, (int)moodY, fontSize_L, bullish ? DARKGREEN : RED);
+    
+    const char *regimeText = i18n_T(bullish ? STR_MARKET_BULLISH : STR_MARKET_BEARISH);
+    Color regimeColor = bullish ? DARKGREEN : RED;
+    float regimeWidth = (float)MeasureText(regimeText, fontSize_L) + 16.0f;
+
+    DrawRectangleRec((Rectangle){ x - 8.0f, moodY - 4.0f, regimeWidth, (float)fontSize_L + 8.0f },
+                     Fade(regimeColor, 0.2f));
+    DrawText(regimeText, (int)x, (int)moodY, fontSize_L, regimeColor);
 }
 
 // Display Stats below the chart

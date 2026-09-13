@@ -26,6 +26,8 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_BREAK_EVEN] = "Break Even: ",
         [STR_HIGHEST_VALUE] = "Highest: ",
         [STR_LOWEST_VALUE] = "Lowest: ",
+        [STR_MARKET_BULLISH] = "BULLISH",
+        [STR_MARKET_BEARISH] = "BEARISH",
     },
     [LANG_ZH] = {
         [STR_GAME_TITLE] = "股市极简",
@@ -44,6 +46,8 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_BREAK_EVEN] = "保本价：",
         [STR_HIGHEST_VALUE] = "最高值：",
         [STR_LOWEST_VALUE] = "最低值：",
+        [STR_MARKET_BULLISH] = "看涨",
+        [STR_MARKET_BEARISH] = "看跌",
     },
 };
 

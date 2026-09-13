@@ -17,9 +17,9 @@ float WrapAngleDelta(float delta)
 float gameSeedGenerator(int randomSeed)
 {
     if (randomSeed == 0) {
-        randomSeed = (int)time(NULL);
+        randomSeed = (unsigned int)time(NULL);
     }
-    return (float)randomSeed;
+    return (int)randomSeed;
 }
 
 float RatioClamped(float value, float max_value)

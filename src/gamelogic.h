@@ -17,6 +17,11 @@ typedef enum {
     PLAYER_ACTION_SELL,  // long hold: released at/after CONFIG_LONG_HOLD_THRESHOLD
 } PlayerActionType;
 
+typedef enum {
+    MARKET_BEARISH = 0,
+    MARKET_BULLISH,
+} MarketRegime;
+
 typedef struct {
     PlayerActionType type;
     float hold_duration;
@@ -53,6 +58,7 @@ typedef struct {
     float profit_loss;          // portfolio_value - starting_cash
     float highest_ever_price;
     float lowest_ever_price;
+    float position_anchor_cash; // cash when current position was opened
 
     bool  holding;               // true while the control key is currently held down
     float hold_duration;         // seconds the control key has been held so far
@@ -63,9 +69,12 @@ typedef struct {
     bool  failed;                // failed condition: cash + portfolio_value < 0.0f, no more trades allowed, gameover
 
     PlayerRecordsDTO playback;   // this round's trade log, server/leaderboard payload
+
+    MarketRegime market_regime;
+    MarketRegime regime_history[STOCK_SEQUENCE_LENGTH];
 } GameViewDTO;
 
-void generate_prices(float *prices, int count);
+void generate_prices(float *prices, int count, MarketRegime *sentiment);
 void InitGameState(GameViewDTO *state, unsigned int seed, float starting_cash, float round_seconds);
 PlayerActionDTO ResolvePlayerAction(GameViewDTO *state, bool key_down, float delta_time);
 void ApplyPlayerAction(GameViewDTO *state, PlayerActionDTO action);

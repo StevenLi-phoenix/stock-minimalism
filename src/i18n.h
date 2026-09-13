@@ -32,6 +32,8 @@ typedef enum
     STR_BREAK_EVEN,
     STR_HIGHEST_VALUE,
     STR_LOWEST_VALUE,
+    STR_MARKET_BULLISH,
+    STR_MARKET_BEARISH,
     STR_COUNT
 } StringKey;
 
