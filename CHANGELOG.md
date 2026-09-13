@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-09-12
+
+### Added
+- Game UI built out in `main.c`, with new i18n strings.
+  Files: src/main.c, src/i18n.c, src/i18n.h
+
+### Fixed
+- Fixed incorrect stat name in i18n string table.
+  Files: src/i18n.c
+
 ## [0.0.2] - 2026-09-12
 
 ### Known Issues
