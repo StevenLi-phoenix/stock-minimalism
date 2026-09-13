@@ -3,18 +3,51 @@
 
 #include "gamelogic.h"
 
-// maybe we should use a more sophisticated price generator, current is just random walk
-// and btw it need to be deterministic based on the seed
-// TODO: fix this to use a more realistic price generator, e.g., geometric Brownian motion
+#include <math.h>
+
+// Uniform (0, 1], never 0.
+static float RandomUnitInterval(void)
+{
+    return (float)GetRandomValue(1, 1000000) / 1000000.0f;
+}
+
+// Standard normal via Box-Muller.
+static float RandomGaussian(void)
+{
+    float u1 = RandomUnitInterval();
+    float u2 = RandomUnitInterval();
+    return sqrtf(-2.0f * logf(u1)) * cosf(6.28318530718f * u2);
+}
+
+// GBM + mean reversion + bull/bear drift, all seed-driven
 void generate_prices(float *prices, int count)
 {
     if (count <= 0) return;
 
-    prices[0] = 100.0f;
+    float log_price = logf(CONFIG_PRICE_START);
+    float log_anchor = log_price;
+
+    prices[0] = CONFIG_PRICE_START;
+
+    int regime_ticks_left = 0;
+    float regime_drift = 0.0f;
+
     for (int i = 1; i < count; i++) {
-        float change = GetRandomValue(-100, 100);
-        prices[i] = prices[i - 1] + change;
-        // if (prices[i] < -10.0f) prices[i] = -10.0f; // -10 floor; price can go negative (see failed/bankruptcy check)
+        if (regime_ticks_left <= 0) {
+            regime_ticks_left = GetRandomValue(CONFIG_REGIME_MIN_TICKS, CONFIG_REGIME_MAX_TICKS);
+            bool bull = GetRandomValue(0, 1) == 1;
+            regime_drift = bull ? CONFIG_BULL_DRIFT : CONFIG_BEAR_DRIFT;
+        }
+        regime_ticks_left--;
+
+        log_anchor += regime_drift;
+        float reversion = CONFIG_MEAN_REVERSION_STRENGTH * (log_anchor - log_price);
+        float noise = CONFIG_PRICE_VOLATILITY * RandomGaussian();
+        log_price += regime_drift + reversion + noise;
+
+        float price = expf(log_price);
+        if (price < CONFIG_PRICE_FLOOR) price = CONFIG_PRICE_FLOOR; // safety net
+        prices[i] = price;
     }
 }
 

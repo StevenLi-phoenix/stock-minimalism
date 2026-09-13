@@ -12,6 +12,16 @@
 // random seed generator configuration
 #define STOCK_SEQUENCE_LENGTH 300
 
+// price path config: GBM + mean reversion + bull/bear drift (see generate_prices)
+#define CONFIG_PRICE_START 100.0f
+#define CONFIG_PRICE_FLOOR 0.01f              // safety net, never actually hit
+#define CONFIG_PRICE_VOLATILITY 0.018f        // per-tick log-return std dev
+#define CONFIG_MEAN_REVERSION_STRENGTH 0.08f  // pull toward anchor, per tick
+#define CONFIG_BULL_DRIFT 0.0035f             // per-tick log drift, bull regime
+#define CONFIG_BEAR_DRIFT -0.0035f            // per-tick log drift, bear regime
+#define CONFIG_REGIME_MIN_TICKS 25            // regime length bounds, in ticks
+#define CONFIG_REGIME_MAX_TICKS 55
+
 // round / balance configuration
 #define CONFIG_STARTING_CASH 1000.0f
 
