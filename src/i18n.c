@@ -22,6 +22,10 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_PORTFOLIO_VALUE] = "Portfolio: ",
         [STR_IS_HOLDING_DOWN] = "Holding: ",
         [STR_PLAYER_HOLD_DURATION] = "  Hold time: ",
+        [STR_TIME_REMAINING] = "Time Remaining: ",
+        [STR_BREAK_EVEN] = "Avg Cost: ",
+        [STR_HIGHEST_VALUE] = "Highest: ",
+        [STR_LOWEST_VALUE] = "Lowest: ",
     },
     [LANG_ZH] = {
         [STR_GAME_TITLE] = "股市极简",
@@ -36,6 +40,10 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_PORTFOLIO_VALUE] = "总资产：",
         [STR_IS_HOLDING_DOWN] = "按住中：",
         [STR_PLAYER_HOLD_DURATION] = "  按住时长：",
+        [STR_TIME_REMAINING] = "剩余时间：",
+        [STR_BREAK_EVEN] = "保本价：",
+        [STR_HIGHEST_VALUE] = "最高值：",
+        [STR_LOWEST_VALUE] = "最低值：",
     },
 };
 
