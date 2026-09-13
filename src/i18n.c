@@ -23,7 +23,7 @@ static const char *i18n_strings[LANG_COUNT][STR_COUNT] = {
         [STR_IS_HOLDING_DOWN] = "Holding: ",
         [STR_PLAYER_HOLD_DURATION] = "  Hold time: ",
         [STR_TIME_REMAINING] = "Time Remaining: ",
-        [STR_BREAK_EVEN] = "Avg Cost: ",
+        [STR_BREAK_EVEN] = "Break Even: ",
         [STR_HIGHEST_VALUE] = "Highest: ",
         [STR_LOWEST_VALUE] = "Lowest: ",
     },
