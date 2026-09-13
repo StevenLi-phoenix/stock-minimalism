@@ -31,7 +31,7 @@ static const float chartHeightFraction = 0.6f;
 static const int chartAxisFontSize = 16;
 static const float chartAxisGutter = 72.0f;
 static const int chartAxisLines = 5;
-static const float chartScaleStepFraction = 0.5f;
+static const float chartScaleStepFraction = 0.1f;
 
 static int CenterText(const char *txt, int fontSize) 
 { 
